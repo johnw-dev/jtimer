@@ -11,7 +11,7 @@ def create_path(file: str):
         path.parent.mkdir()
 
 
-if __name__ == "__main__":
+def start():
     parser = argparse.ArgumentParser(
         prog="jtimer",
         description="John's Timer - desktop app for tracking time",
@@ -30,3 +30,7 @@ if __name__ == "__main__":
     create_path(args.db)
     controller = TimerController(DAO(args.db))
     App.exit(App.exec())
+
+
+if __name__ == "__main__":
+    start()

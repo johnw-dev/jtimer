@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jtimer"
-version = "0.1.2"
+version = "0.1.4"
 description = "John's Timer - desktop app for tracking time"
 authors = ["John Watson <jmwdev@pm.me>"]
 maintainers = ["John Watson <jmwdev@pm.me>"]
@@ -12,10 +12,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-packages = [
-    {include = "jtimer" },
-    {include = "schema.sql"}
-]
+include = ["resources", "images"]
+
+[tool.poetry.scripts]
+jtimer = "jtimer.main:start"
 
 [tool.poetry.dependencies]
 python = "^3.10.6"

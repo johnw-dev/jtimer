@@ -1,6 +1,6 @@
 from datetime import date, datetime
 import sqlite3
-
+from importlib import resources
 from jtimer.model.time_event import TimeEvent, TimeEventType
 from jtimer.model.timer import Timer
 
@@ -14,7 +14,7 @@ class DAO:
         if not conn.execute(
             "SELECT name FROM sqlite_master WHERE name = 'timer'"
         ).fetchone():
-            with open("schema.sql", "r") as f:
+            with resources.open_text("resources", "schema.sql") as f:
                 conn.executescript(f.read())
             conn.commit()
         conn.close()
