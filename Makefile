@@ -3,8 +3,11 @@ clean:
 	find . -name __pycache__ | xargs rm -rf
 	rm -rf assets
 
+install:
+	poetry install
+
 run:
-	poetry run python3 mptimer/main.py
+	poetry run python3 jtimer/main.py
 
 lint:
 	poetry run black .

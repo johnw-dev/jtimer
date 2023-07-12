@@ -1,6 +1,6 @@
 from datetime import timedelta, date, datetime
 
-from mptimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.model.time_event import TimeEvent, TimeEventType
 
 
 def eod(day: date):

@@ -9,10 +9,10 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon
 
-from mptimer.controller import ControllerInterface as Controller
-from mptimer.view import ADD_ICON, CHART_ICON
-from mptimer.view.timer_widget import TimerWidget
-from mptimer.model.timer import Timer
+from jtimer.controller import ControllerInterface as Controller
+from jtimer.view import ADD_ICON, CHART_ICON
+from jtimer.view.timer_widget import TimerWidget
+from jtimer.model.timer import Timer
 
 
 class TimersView(QWidget):

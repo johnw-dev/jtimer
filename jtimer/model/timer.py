@@ -1,5 +1,5 @@
 from datetime import timedelta
-from mptimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.model.time_event import TimeEvent, TimeEventType
 
 
 class Timer:

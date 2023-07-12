@@ -1,4 +1,4 @@
-from mptimer import __version__
+from jtimer import __version__
 
 
 def test_version():

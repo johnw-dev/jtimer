@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime, date
 import unittest
-from mptimer.model.time_event import TimeEvent, TimeEventType
-from mptimer.controller.calc_utils import eod, happened_on_day, sod
+from jtimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.controller.calc_utils import eod, happened_on_day, sod
 
 
 class TestTimer(unittest.TestCase):

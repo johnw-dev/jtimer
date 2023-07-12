@@ -1,11 +1,11 @@
 from datetime import date, timedelta
-from mptimer.model.time_event import TimeEvent, TimeEventType
-from mptimer.controller.calc_utils import happened_on_day, sum_events, eod
-from mptimer.view.stats_view import StatsView
-from mptimer.dao import DAO
-from mptimer.model.timer import Timer
-from mptimer.controller import ControllerInterface
-from mptimer.view.timers_view import TimersView
+from jtimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.controller.calc_utils import happened_on_day, sum_events, eod
+from jtimer.view.stats_view import StatsView
+from jtimer.dao import DAO
+from jtimer.model.timer import Timer
+from jtimer.controller import ControllerInterface
+from jtimer.view.timers_view import TimersView
 
 
 class TimerController(ControllerInterface):
@@ -13,15 +13,15 @@ class TimerController(ControllerInterface):
         super().__init__()
         self.dao = dao
         timers = self.dao.get_all_timer_objects()
-        for timer in timers:
-            timer.timedelta = sum_events(timer.events)
         self.timers = {}
         self.view = TimersView(self)
         self.view.show()
-        for timer in timers:
-            self.__add_timer__(timer)
+        for t in timers:
+            timer: Timer = t
+            timer.delta = sum_events(timer.events)
             last_event = self.dao.get_last_event(timer.id)
             self.__stop_forgotten_timers__(timer, [last_event])
+            self.__add_timer__(timer)
 
     def __add_timer__(self, timer: Timer):
         self.timers[timer.name] = timer
@@ -30,7 +30,8 @@ class TimerController(ControllerInterface):
     def __stop_forgotten_timers__(self, timer: Timer, events: list) -> int:
         modified = 0
         if events:
-            for idx, event in enumerate(events):
+            for idx, e in enumerate(events):
+                event: TimeEvent = e
                 if event and event.type == TimeEventType.START:
                     if idx < len(events) - 1 and (
                         happened_on_day(event, date.today() - timedelta(days=1))

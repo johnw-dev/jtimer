@@ -1,8 +1,8 @@
 from datetime import date, datetime
 import sqlite3
 
-from mptimer.model.time_event import TimeEvent, TimeEventType
-from mptimer.model.timer import Timer
+from jtimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.model.timer import Timer
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 

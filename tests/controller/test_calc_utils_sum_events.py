@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 import unittest
-from mptimer.model.time_event import TimeEvent, TimeEventType
-from mptimer.controller.calc_utils import sum_events
+from jtimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.controller.calc_utils import sum_events
 
 
 class TestTimer(unittest.TestCase):

@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "mptimer"
+name = "jtimer"
 version = "0.1.0"
-description = "Multi Purpose Timer Tool for simple productivity tracking"
+description = "John's Timer - desktop app for tracking time"
 authors = ["John Watson <jmwdev@pm.me>"]
 maintainers = ["John Watson <jmwdev@pm.me>"]
 license = "GNU GENERAL PUBLIC LICENSE V3"
@@ -13,7 +13,7 @@ classifiers = [
 ]
 
 packages = [
-    {include = "mptimer"},
+    {include = "jtimer" },
     {include = "schema.sql"}
 ]
 

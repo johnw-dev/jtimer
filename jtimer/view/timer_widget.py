@@ -3,10 +3,10 @@ from PyQt6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QLineEdit, QWidget
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QTimer, Qt
 from datetime import timedelta, datetime
-from mptimer.model.time_event import TimeEvent, TimeEventType
-from mptimer.model.timer import Timer
-from mptimer.view import DELETE_ICON, PLAY_ICON, PAUSE_ICON
-from mptimer.controller import ControllerInterface as Controller
+from jtimer.model.time_event import TimeEvent, TimeEventType
+from jtimer.model.timer import Timer
+from jtimer.view import DELETE_ICON, PLAY_ICON, PAUSE_ICON
+from jtimer.controller import ControllerInterface as Controller
 
 DEFAULT_RESOLUTION_SECONDS = 1
 DEFAULT_RESOLUTION_MS = DEFAULT_RESOLUTION_SECONDS * 1000

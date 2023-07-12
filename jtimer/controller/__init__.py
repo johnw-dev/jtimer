@@ -1,4 +1,4 @@
-from mptimer.model.time_event import TimeEvent
+from jtimer.model.time_event import TimeEvent
 
 
 class ControllerInterface:
