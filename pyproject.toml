@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jtimer"
-version = "0.1.0"
+version = "0.1.2"
 description = "John's Timer - desktop app for tracking time"
 authors = ["John Watson <jmwdev@pm.me>"]
 maintainers = ["John Watson <jmwdev@pm.me>"]
