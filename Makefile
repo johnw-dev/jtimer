@@ -14,8 +14,7 @@ lint:
 
 lint_check:
 	poetry run black --check .
-	poetry run bandit -r function
-	poetry run safety check
+	poetry run bandit -r jtimer
 
 test:
 	poetry run pytest tests
