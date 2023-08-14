@@ -7,6 +7,8 @@ from jtimer.model.timer import Timer
 from jtimer.controller import ControllerInterface
 from jtimer.view.timers_view import TimersView
 
+from jtimer.view.jtimer_window import JTimerWindow
+
 
 class TimerController(ControllerInterface):
     def __init__(self, dao: DAO):
@@ -14,12 +16,15 @@ class TimerController(ControllerInterface):
         self.dao = dao
         timers = self.dao.get_all_timer_objects()
         self.timers = {}
-        self.view = TimersView(self)
-        self.view.show()
+        self.window: JTimerWindow = JTimerWindow(controller=self)
+        self.view: TimersView = self.window.view
+        self.window.show()
         for t in timers:
             timer: Timer = t
             timer.delta = sum_events(timer.events)
             last_event = self.dao.get_last_event(timer.id)
+            if last_event:
+                timer.events.append(last_event)
             self.__stop_forgotten_timers__(timer, [last_event])
             self.__add_timer__(timer)
 
@@ -33,10 +38,7 @@ class TimerController(ControllerInterface):
             for idx, e in enumerate(events):
                 event: TimeEvent = e
                 if event and event.type == TimeEventType.START:
-                    if idx < len(events) - 1 and (
-                        happened_on_day(event, date.today() - timedelta(days=1))
-                        or events[idx + 1].type == TimeEventType.START
-                    ):
+                    if not happened_on_day(event, date.today()):
                         print("stopping forgtten timer", event.created)
                         new_event = TimeEvent(
                             TimeEventType.STOP, eod(event.created.date())
