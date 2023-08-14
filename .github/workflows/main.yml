@@ -23,9 +23,12 @@ jobs:
     - name: Install poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
+    - name: install dependencies
+      run: |
+        make install
     - name: Lint
       run: |
-        make lint
+        make lint_check
     - name: Test
       run: |
         make test
