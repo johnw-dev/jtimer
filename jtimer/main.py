@@ -1,3 +1,4 @@
+import os
 import argparse
 from pathlib import Path
 from PyQt6.QtWidgets import QApplication
@@ -21,8 +22,8 @@ def start():
         "-d",
         "--db",
         dest="db",
-        default="/tmp/jtimer/jtimer.db",
-        help="location of database (/tmp/jtimer/jtimer.db)",
+        default=os.path.expanduser("~/.jtimer/jtimer.db"),
+        help="location of database (~/jtimer/jtimer.db)",
     )
     args = parser.parse_args()
     App = QApplication([])

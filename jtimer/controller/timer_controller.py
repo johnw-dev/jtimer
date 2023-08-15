@@ -8,6 +8,9 @@ from jtimer.controller import ControllerInterface
 from jtimer.view.timers_view import TimersView
 
 from jtimer.view.jtimer_window import JTimerWindow
+import logging
+
+LOG = logging.getLogger("TimerController")
 
 
 class TimerController(ControllerInterface):
@@ -39,7 +42,7 @@ class TimerController(ControllerInterface):
                 event: TimeEvent = e
                 if event and event.type == TimeEventType.START:
                     if not happened_on_day(event, date.today()):
-                        print("stopping forgtten timer", event.created)
+                        LOG.debug("stopping forgotten timer", event.created)
                         new_event = TimeEvent(
                             TimeEventType.STOP, eod(event.created.date())
                         )
@@ -60,9 +63,10 @@ class TimerController(ControllerInterface):
             self.dao.update_timer(timer)
 
     def delete_timer(self, name: str):
-        if self.timers.get(name):
+        timer = self.timers.get(name)
+        if timer:
             self.timers[name] = None
-            self.dao.delete_timer(name)
+            self.dao.delete_timer(timer)
             self.view.delete_timer(name)
 
     def add_event(self, name: str, event: TimeEvent):
@@ -80,8 +84,7 @@ class TimerController(ControllerInterface):
                 events = self.dao.get_all_events_for_day(timer.id, day)
                 if self.__stop_forgotten_timers__(timer, events):
                     events = self.dao.get_all_events_for_day(timer.id, day)
-                print("stat_events", events)
                 daily_totals.append((str(sum_events(events))).split(".")[0])
             timer_stats[key] = daily_totals
-        self.stats = StatsView(timer_stats)
-        self.stats.show()
+        LOG.debug("opening stats view")
+        StatsView(timer_stats).show()
