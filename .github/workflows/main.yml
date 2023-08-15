@@ -22,10 +22,10 @@ jobs:
         python-version: "3.10"
     - name: Update Apt Repo
       run: |
-        apt-get update
+        sudo apt-get update
     - name: Install OS Dependencies
       run: |
-         apt-get install ffmpeg libsm6 libxext6  -y
+         sudo apt-get install ffmpeg libsm6 libxext6  -y
     - name: Install poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
