@@ -21,7 +21,7 @@ jtimer = "jtimer.main:start"
 python = "^3.10.6"
 PyQt6 = "^6.5.1"
 bandit = "^1.7.5"
-opencv-python-headless = "^4.8.0"
+opencv-python = "^4.8.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2"
