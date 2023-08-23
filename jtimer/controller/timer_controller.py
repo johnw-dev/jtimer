@@ -16,6 +16,7 @@ LOG = logging.getLogger("TimerController")
 class TimerController(ControllerInterface):
     def __init__(self, dao: DAO):
         super().__init__()
+        self.stats_view = None
         self.dao = dao
         timers = self.dao.get_all_timer_objects()
         self.timers = {}
@@ -65,7 +66,7 @@ class TimerController(ControllerInterface):
     def delete_timer(self, name: str):
         timer = self.timers.get(name)
         if timer:
-            self.timers[name] = None
+            self.timers.pop(name)
             self.dao.delete_timer(timer)
             self.view.delete_timer(name)
 
@@ -87,4 +88,5 @@ class TimerController(ControllerInterface):
                 daily_totals.append((str(sum_events(events))).split(".")[0])
             timer_stats[key] = daily_totals
         LOG.debug("opening stats view")
-        StatsView(timer_stats).show()
+        self.stats_view = StatsView(timer_stats)
+        self.stats_view.show()

@@ -2,15 +2,14 @@ from PyQt6.QtWidgets import (
     QBoxLayout,
     QVBoxLayout,
     QHBoxLayout,
-    QPushButton,
     QLineEdit,
     QWidget,
 )
 from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QIcon
 
 from jtimer.controller import ControllerInterface as Controller
 from jtimer.view import ADD_ICON, CHART_ICON
+from jtimer.view.push_button import PushButton
 from jtimer.view.timer_widget import TimerWidget
 from jtimer.model.timer import Timer
 
@@ -37,16 +36,12 @@ class TimersView(QWidget):
         menu.setSpacing(2)
         menu.setContentsMargins(6, 3, 6, 3)
 
-        add_button = QPushButton()
-        add_button.setFixedSize(30, 30)
-        add_button.setIcon(QIcon(ADD_ICON))
+        add_button = PushButton(ADD_ICON)
         add_button.clicked.connect(self.add_button_click)
 
         self.lineEdit = QLineEdit("⏱️")
 
-        view_stats_button = QPushButton()
-        view_stats_button.setIcon(QIcon(CHART_ICON))
-        view_stats_button.setFixedSize(30, 30)
+        view_stats_button = PushButton(CHART_ICON)
         view_stats_button.clicked.connect(self.controller.show_stats)
 
         menu.addWidget(add_button)

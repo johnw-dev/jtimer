@@ -6,3 +6,5 @@ PAUSE_ICON = str(resources.path("images", "pause2.png"))
 CHART_ICON = str(resources.path("images", "chart.png"))
 DELETE_ICON = str(resources.path("images", "delete.png"))
 STOPWATCH_ICON = str(resources.path("images", "stopwatch.png"))
+
+BACKGROUND_COLOR = "#242942"
