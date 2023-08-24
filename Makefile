@@ -7,7 +7,7 @@ install:
 	poetry install
 
 run:
-	poetry run python3 jtimer/main.py
+	poetry run python3 jtimer/main.py -l DEBUG
 
 lint:
 	poetry run black .

@@ -53,9 +53,14 @@ class TimerController(ControllerInterface):
         return modified
 
     def new_timer(self, name: str):
-        if not self.timers.get(name):
-            timer = self.dao.create_timer(name)
-            self.__add_timer__(timer)
+        if len(name) > 0:
+            if not self.timers.get(name):
+                timer = self.dao.create_timer(name)
+                self.__add_timer__(timer)
+            else:
+                LOG.debug("not adding timer: exists already")
+        else:
+            LOG.debug("not adding timer: no name")
 
     def update_timer(self, name: str, new_name: str):
         if self.timers.get(name) and new_name:

@@ -4,6 +4,7 @@ from pathlib import Path
 from PyQt6.QtWidgets import QApplication
 from jtimer.controller.timer_controller import TimerController
 from jtimer.dao import DAO
+import logging
 
 
 def create_path(file: str):
@@ -25,7 +26,16 @@ def start():
         default=os.path.expanduser("~/.jtimer/jtimer.db"),
         help="location of database (~/jtimer/jtimer.db)",
     )
+    parser.add_argument(
+        "-l",
+        "--log_level",
+        dest="log_level",
+        default="WARNING",
+        help="Level of console logging (WARNING)",
+    )
     args = parser.parse_args()
+    logging.basicConfig(encoding="utf-8", level=args.log_level)
+
     App = QApplication([])
 
     create_path(args.db)

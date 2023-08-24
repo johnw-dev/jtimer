@@ -39,7 +39,7 @@ class TimersView(QWidget):
         add_button = PushButton(ADD_ICON)
         add_button.clicked.connect(self.add_button_click)
 
-        self.lineEdit = QLineEdit("⏱️")
+        self.lineEdit = QLineEdit("zzz")
 
         view_stats_button = PushButton(CHART_ICON)
         view_stats_button.clicked.connect(self.controller.show_stats)

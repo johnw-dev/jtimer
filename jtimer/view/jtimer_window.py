@@ -20,6 +20,7 @@ class JTimerWindow(QMainWindow):
         self.setWindowIcon(QIcon(STOPWATCH_ICON))
         self.setCentralWidget(self.view)
         self.setStyleSheet(f"background-color: {BACKGROUND_COLOR}; ")
+        self.setMinimumWidth(300)
         self.show()
 
     def closeEvent(self, event):

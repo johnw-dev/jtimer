@@ -5,7 +5,12 @@ from PyQt6.QtCore import QTimer, Qt
 from datetime import timedelta, datetime
 from jtimer.model.time_event import TimeEvent, TimeEventType
 from jtimer.model.timer import Timer
-from jtimer.view import DELETE_ICON, PLAY_ICON, PAUSE_ICON
+from jtimer.view import (
+    DELETE_ICON,
+    PLAY_ICON,
+    PAUSE_ICON,
+    BORDER_COLOR,
+)
 from jtimer.controller import ControllerInterface as Controller
 from jtimer.view.push_button import PushButton
 
@@ -18,9 +23,11 @@ class NameLabel(QLineEdit):
         super().__init__(name)
         self.timer_name = name
         self.controller = controller
+        self.setStyleSheet(f"border: 1px solid {BORDER_COLOR}; ")
 
     def focusOutEvent(self, e):
         self.controller.update_timer(self.timer_name, self.text())
+        super().focusOutEvent(e)
 
 
 class TimerWidget(QWidget):
@@ -53,6 +60,8 @@ class TimerWidget(QWidget):
         if self.is_active():
             self.sleeper.start(self.resolution_ms)
             self.button.setIcon(QIcon(PAUSE_ICON))
+            self.value_label.setStyleSheet("font-weight: bold;")
+            self.name_label.setStyleSheet("font-weight: bold;")
         self.setLayout(self.layout)
 
     def on_button_clicked(self):
@@ -62,11 +71,16 @@ class TimerWidget(QWidget):
             self.sleeper.stop()
             self.button.setIcon(QIcon(PLAY_ICON))
             self.add_event(TimeEventType.STOP, event_time)
+            self.value_label.setStyleSheet("font-weight: normal;")
+            self.name_label.setStyleSheet("font-weight: normal;")
+
         else:
             self.instance.state = 1
             self.sleeper.start(self.resolution_ms)
             self.button.setIcon(QIcon(PAUSE_ICON))
             self.add_event(TimeEventType.START, event_time)
+            self.value_label.setStyleSheet("font-weight: bold;")
+            self.name_label.setStyleSheet("font-weight: bold;")
 
     def update_timer(self):
         self.instance.delta += self.resolution_delta
