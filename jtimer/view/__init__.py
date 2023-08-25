@@ -9,3 +9,6 @@ STOPWATCH_ICON = str(resources.path("images", "timer.png"))
 
 BACKGROUND_COLOR = "#242942"
 BORDER_COLOR = "#464A63"
+
+BOLD_LABEL_STYLE = f"border: 1px solid {BORDER_COLOR}; font-weight: bold;"
+NORMAL_LABEL_STYLE = f"border: 1px solid {BORDER_COLOR}; font-weight: normal;"

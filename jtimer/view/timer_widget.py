@@ -1,5 +1,5 @@
 from tkinter import EventType
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QWidget
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QWidget, QMessageBox
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QTimer, Qt
 from datetime import timedelta, datetime
@@ -13,21 +13,12 @@ from jtimer.view import (
 )
 from jtimer.controller import ControllerInterface as Controller
 from jtimer.view.push_button import PushButton
+from jtimer.view.timer_label import TimerLabel
+from jtimer.view.timer_name_box import TimerNameBox
 
 DEFAULT_RESOLUTION_SECONDS = 1
 DEFAULT_RESOLUTION_MS = DEFAULT_RESOLUTION_SECONDS * 1000
-
-
-class NameLabel(QLineEdit):
-    def __init__(self, name, controller: Controller):
-        super().__init__(name)
-        self.timer_name = name
-        self.controller = controller
-        self.setStyleSheet(f"border: 1px solid {BORDER_COLOR}; ")
-
-    def focusOutEvent(self, e):
-        self.controller.update_timer(self.timer_name, self.text())
-        super().focusOutEvent(e)
+BORDER_STYLE = f"border: 1px solid {BORDER_COLOR};"
 
 
 class TimerWidget(QWidget):
@@ -38,20 +29,20 @@ class TimerWidget(QWidget):
         self.layout = QHBoxLayout()
         self.layout.setSpacing(2)
         self.layout.setContentsMargins(6, 3, 6, 3)
-        self.name_label = NameLabel(timer.name, self.controller)
+        self.name_label = TimerNameBox(timer.name, self.controller)
 
-        self.value_label = QLabel(str(timer.get_delta_str()))
+        self.value_label = TimerLabel(str(timer.get_delta_str()))
         self.button = PushButton(PLAY_ICON)
         self.resolution_ms = DEFAULT_RESOLUTION_MS
         self.resolution_delta = timedelta(seconds=DEFAULT_RESOLUTION_SECONDS)
 
         self.button.clicked.connect(self.on_button_clicked)
 
-        delete_button = PushButton(DELETE_ICON)
-        delete_button.clicked.connect(self.delete)
+        self.delete_button = PushButton(DELETE_ICON)
+        self.delete_button.clicked.connect(self.delete)
         self.layout.addWidget(self.name_label)
         self.layout.addWidget(self.button)
-        self.layout.addWidget(delete_button)
+        self.layout.addWidget(self.delete_button)
         self.layout.addWidget(self.value_label)
         self.layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 
@@ -60,8 +51,9 @@ class TimerWidget(QWidget):
         if self.is_active():
             self.sleeper.start(self.resolution_ms)
             self.button.setIcon(QIcon(PAUSE_ICON))
-            self.value_label.setStyleSheet("font-weight: bold;")
-            self.name_label.setStyleSheet("font-weight: bold;")
+            self.value_label.styleSheet()
+            self.value_label.bold_style()
+            self.name_label.bold_style()
         self.setLayout(self.layout)
 
     def on_button_clicked(self):
@@ -71,16 +63,16 @@ class TimerWidget(QWidget):
             self.sleeper.stop()
             self.button.setIcon(QIcon(PLAY_ICON))
             self.add_event(TimeEventType.STOP, event_time)
-            self.value_label.setStyleSheet("font-weight: normal;")
-            self.name_label.setStyleSheet("font-weight: normal;")
+            self.value_label.normal_style()
+            self.name_label.normal_style()
 
         else:
             self.instance.state = 1
             self.sleeper.start(self.resolution_ms)
             self.button.setIcon(QIcon(PAUSE_ICON))
             self.add_event(TimeEventType.START, event_time)
-            self.value_label.setStyleSheet("font-weight: bold;")
-            self.name_label.setStyleSheet("font-weight: bold;")
+            self.value_label.bold_style()
+            self.name_label.bold_style()
 
     def update_timer(self):
         self.instance.delta += self.resolution_delta
@@ -95,9 +87,28 @@ class TimerWidget(QWidget):
         self.controller.add_event(self.instance.name, event)
 
     def delete(self):
-        if self.is_active():
-            self.on_button_clicked()
-        for i in reversed(range(self.layout.count())):
-            self.layout.itemAt(i).widget().setParent(None)
-        self.setParent(None)
-        self.controller.delete_timer(self.instance.name)
+        check = QMessageBox.question(
+            self,
+            f"Delete {self.instance.name}?",
+            f"are you sure you want to delete this timer? {self.instance.name}",
+        )
+        if check == check.Yes:
+            if self.is_active():
+                self.on_button_clicked()
+            for i in reversed(range(self.layout.count())):
+                self.layout.itemAt(i).widget().setParent(None)
+            self.setParent(None)
+            self.controller.delete_timer(self.instance.name)
+
+    def get_width(self):
+        name_width = self.name_label.estimate_width()
+        button_width = self.button.width()
+        value_width = self.value_label.estimate_width()
+        delete_width = self.delete_button.width()
+        margins = (
+            self.layout.contentsMargins().left() + self.layout.contentsMargins().right()
+        )
+        spacing = self.layout.spacing() * 10
+        return (
+            name_width + button_width + delete_width + value_width + margins + spacing
+        )
