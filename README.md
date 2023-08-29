@@ -26,6 +26,8 @@ jtimer
 ```
 
 ## Planned Future developments
-
+* historical view improvements
 * timer linked triggers
 * timer event modification view
+* countdowns + alerts
+* automations
